@@ -16,6 +16,10 @@
     "email": "aa900031@gmail.com"
   },
   "license": "MIT",
+  "repository": {
+    "type" : "git",
+    "url" : "https://github.com/aa900031/react-native-mindwave-mobile"
+  },
   "peerDependencies": {
     "react-native": "^0.41.2"
   }
