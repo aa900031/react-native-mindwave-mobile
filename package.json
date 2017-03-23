@@ -1,0 +1,22 @@
+{
+  "name": "react-native-mindwave-mobile",
+  "version": "0.0.1",
+  "description": "MindWave Mobile sdk for react-native",
+  "main": "index.js",
+  "keywords": [
+    "react-native",
+    "android",
+    "ios",
+    "mwm",
+    "mindwave",
+    "mindwave-mobile"
+  ],
+  "author":  {
+    "name": "zhong666",
+    "email": "aa900031@gmail.com"
+  },
+  "license": "MIT",
+  "peerDependencies": {
+    "react-native": "^0.41.2"
+  }
+}
