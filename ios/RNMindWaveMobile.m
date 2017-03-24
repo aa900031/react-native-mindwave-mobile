@@ -1,11 +1,13 @@
-#import <React/RCTConvert.h>
 #import "RNMindWaveMobile.h"
+#import <React/RCTConvert.h>
 
 @implementation RNMindWaveMobile
 {
     RCTResponseSenderBlock _connectDeviceCallback;
     RCTResponseSenderBlock _disconnectDeviceCallback;
 }
+
+RCT_EXPORT_MODULE();
 
 - (dispatch_queue_t)methodQueue
 {
@@ -14,21 +16,15 @@
 
 - (NSArray<NSString *> *)supportedEvents
 {
-    return @[@"deviceFound", @"eegPowerLowBeta", @"eegPowerDelta", @"eSense", @"eegBlink", @"mwmBaudRate"];
+    return @[@"deviceFound", @"eegPowerLowBeta", @"eegPowerDelta", @"eSense", @"eegBlink", @"mwmBaudRate", @"didConnect", @"didDisconnect"];
 }
 
--(void)instance
+RCT_EXPORT_METHOD(instance)
 {
     mwDevice = [MWMDevice sharedInstance];
     [mwDevice setDelegate:self];
-}
-
-RCT_EXPORT_MODULE();
-
-RCT_EXPORT_METHOD(inital)
-{
+    [mwDevice enableConsoleLog:YES];
     NSLog(@"call instance");
-    [self instance];
 }
 
 RCT_EXPORT_METHOD(scan)
@@ -37,17 +33,15 @@ RCT_EXPORT_METHOD(scan)
     [mwDevice scanDevice];
 }
 
-RCT_EXPORT_METHOD(connect:(NSString *)deviceID Callback:(RCTResponseSenderBlock)callback)
+RCT_EXPORT_METHOD(connect:(NSString *)deviceID)
 {
     NSLog(@"call connect");
-    _connectDeviceCallback = callback;
     [mwDevice connectDevice:deviceID];
 }
 
-RCT_EXPORT_METHOD(disconnect:(RCTResponseSenderBlock)callback)
+RCT_EXPORT_METHOD(disconnect)
 {
     NSLog(@"call disconnect");
-    _disconnectDeviceCallback = callback;
     [mwDevice disconnectDevice];
 }
 
@@ -55,7 +49,7 @@ RCT_EXPORT_METHOD(disconnect:(RCTResponseSenderBlock)callback)
 
 -(void)deviceFound:(NSString *)devName MfgID:(NSString *)mfgID DeviceID:(NSString *)deviceID
 {
-    NSLog(@"%s", __func__);
+    NSLog(@"deviceFound");
     if ([mfgID isEqualToString:@""] || nil == mfgID || NULL == mfgID) {
         return;
     }
@@ -69,13 +63,18 @@ RCT_EXPORT_METHOD(disconnect:(RCTResponseSenderBlock)callback)
     NSLog(@"%s", __func__);
     [[MWMDevice sharedInstance] enableLoggingWithOptions:LoggingOptions_Processed | LoggingOptions_Raw];
     
-    _connectDeviceCallback(@[[NSNull null]]);
+    NSDictionary *data = @{@"success": @(TRUE)};
+
+    [self sendEventWithName:@"didConnect" body:data];
 }
 
 -(void)didDisconnect
 {
     NSLog(@"%s", __func__);
-    _disconnectDeviceCallback(@[[NSNull null]]);
+    
+    NSDictionary *data = @{@"success": @(TRUE)};
+    
+    [self sendEventWithName:@"didDisconnect" body:data];
 }
 
 -(void)eegPowerLowBeta:(int)lowBeta HighBeta:(int)highBeta LowGamma:(int)lowGamma MidGamma:(int)midGamma

@@ -7,7 +7,7 @@ const RNMindWaveMobileEventEmitter = new NativeEventEmitter(RNMindWaveMobile);
 export default class {
 
   constructor() {
-    RNMindWaveMobile.inital()
+    RNMindWaveMobile.instance()
   }
 
   scan() {
@@ -15,21 +15,19 @@ export default class {
   }
 
   connect(deviceId) {
-    return new Promise((resolve, reject) => {
-      RNMindWaveMobile.connect(deviceId, err => {
-        if (err) reject()
-        resolve()
-      })
-    })
+    RNMindWaveMobile.connect(deviceId)
   }
 
   disconnect() {
-    return new Promise((resolve, reject) => {
-      RNMindWaveMobile.disconnect(err => {
-        if (err) reject()
-        resolve()
-      })
-    });
+    RNMindWaveMobile.disconnect()
+  }
+
+  onConnect(callback) {
+    RNMindWaveMobileEventEmitter.addListener('didConnect', callback)
+  }
+
+  onDisconnect(callback) {
+    RNMindWaveMobileEventEmitter.addListener('didDisconnect', callback)
   }
 
   onFoundDevice(callback) {

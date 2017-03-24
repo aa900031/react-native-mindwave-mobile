@@ -9,9 +9,8 @@
 #import "MWMDevice.h"
 #import "MWMDelegate.h"
 
-@interface RNMindWaveMobile : RCTEventEmitter <RCTBridgeModule>
+@interface RNMindWaveMobile : RCTEventEmitter <MWMDelegate>
 {
     MWMDevice *mwDevice;
 }
 @end
-  
