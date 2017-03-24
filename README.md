@@ -48,14 +48,38 @@ mwm.onFoundDevice(device => {
 
 ## Method
 ### `scan()`
+Scan devices, will callback on `onFoundDevice` event
+s
 
-### `connect(deviceId) :Promise`
+### `connect(deviceId)`
+Connect device with device id, will callback on `onConnect` event
 
-### `disconnect() :Promise`
+
+### `disconnect()`
+Disconnect all of device, will callback on `onDisconnect` event
+
 
 ### `removeAllListeners()`
+Remove all listeners
+
 
 ## Event
+
+### `onConnect`
+- callback `function(state)`
+```
+  state = {
+    success
+  }
+```
+
+### `onDisconnect`
+- callback `function(state)`
+```
+  state = {
+    success
+  }
+```
 
 ### `onFoundDevice(callback)`
 - callback `function(device)`
