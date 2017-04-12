@@ -32,6 +32,7 @@ public class RNMindWaveMobileModule extends ReactContextBaseJavaModule {
     private final String TAG = "RNMindWaveMobile";
 
     private final ReactApplicationContext reactContext;
+    private BluetoothAdapter mBluetoothAdapter;
 
     private TgStreamReader mTgStreamReader;
 
@@ -66,19 +67,25 @@ public class RNMindWaveMobileModule extends ReactContextBaseJavaModule {
     public void scan() {
         BluetoothAdapter bluetoothAdapter = getDefaultBluetoothAdapter();
         if (bluetoothAdapter == null) {
+            Log.d(TAG, "======bluetooth not enabled");
             return;
         }
+        Log.d(TAG, "=======start scan");
         if (bluetoothAdapter.isDiscovering()) {
             bluetoothAdapter.cancelDiscovery();
         }
         //register the receiver for scanning
         IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
         this.reactContext.registerReceiver(mReceiver, filter);
+        bluetoothAdapter.startDiscovery();
     }
 
     @ReactMethod
     public void connect(String deviceId) {
         BluetoothAdapter bluetoothAdapter = getDefaultBluetoothAdapter();
+        if (bluetoothAdapter == null) {
+            return;
+        }
         BluetoothDevice remoteDevice = bluetoothAdapter.getRemoteDevice(deviceId);
         if (mTgStreamReader == null) {
             mTgStreamReader = new TgStreamReader(remoteDevice, callback);
@@ -139,7 +146,10 @@ public class RNMindWaveMobileModule extends ReactContextBaseJavaModule {
     }
 
     private BluetoothAdapter getDefaultBluetoothAdapter() {
-        return BluetoothAdapter.getDefaultAdapter();
+        if (mBluetoothAdapter == null) {
+            mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        }
+        return mBluetoothAdapter;
     }
 
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
@@ -164,17 +174,9 @@ public class RNMindWaveMobileModule extends ReactContextBaseJavaModule {
             WritableMap params;
             switch (connectionStates) {
                 case ConnectionStates.STATE_CONNECTED:
-                    //sensor.start();
-                    // showToast("Connected", Toast.LENGTH_SHORT);
                     params = Arguments.createMap();
                     params.putBoolean("success", true);
                     sendEvent(EVENT_DID_CONNECT, params);
-                    break;
-                case ConnectionStates.STATE_WORKING:
-                    //byte[] cmd = new byte[1];
-                    //cmd[0] = 's';
-                    //tgStreamReader.sendCommandtoDevice(cmd);
-                    //LinkDetectedHandler.sendEmptyMessageDelayed(1234, 5000);
                     break;
                 case ConnectionStates.STATE_DISCONNECTED:
                     params = Arguments.createMap();
