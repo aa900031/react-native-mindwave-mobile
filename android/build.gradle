@@ -32,5 +32,6 @@ repositories {
 
 dependencies {
     compile 'com.facebook.react:react-native:+'
+    compile files('libs/libStreamSDK_v1.2.0.jar')
 }
   
