@@ -19,7 +19,7 @@
 3. In XCode, in the project navigator, select your project. Add `libRNMindWaveMobile.a` to your project's `Build Phases` ➜ `Link Binary With Libraries`
 4. Run your project (`Cmd+R`)<
 
-#### Android  \*comming soon
+#### Android
 
 1. Open up `android/app/src/main/java/[...]/MainActivity.java`
   - Add `import com.reactlibrary.RNMindWaveMobilePackage;` to the imports at the top of the file
@@ -109,14 +109,14 @@ Remove all listeners
     poorSignal, attention, meditation
   }
 ```
-### `onEEGBlink(callback)`
+### `onEEGBlink(callback)` \* iOS only
 - callback `function(data)`
 ```
   data = {
     blinkValue
   }
 ```
-### `onMWMBaudRate(callback)`
+### `onMWMBaudRate(callback)` \* iOS only
 - callback `function(data)`
 ```
   data = {
