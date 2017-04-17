@@ -5,6 +5,16 @@ const { RNMindWaveMobile } = NativeModules;
 const RNMindWaveMobileEventEmitter = new NativeEventEmitter(RNMindWaveMobile);
 
 export default class {
+  events = {
+    didConnect: 'didConnect',
+    didDisconnect: 'didDisconnect',
+    deviceFound: 'deviceFound',
+    eegPowerLowBeta: 'eegPowerLowBeta',
+    eegPowerDelta: 'eegPowerDelta',
+    eSense: 'eSense',
+    eegBlink: 'eegBlink',
+    mwmBaudRate: 'mwmBaudRate',
+  }
 
   constructor() {
     RNMindWaveMobile.instance()
@@ -23,39 +33,42 @@ export default class {
   }
 
   onConnect(callback) {
-    RNMindWaveMobileEventEmitter.addListener('didConnect', callback)
+    RNMindWaveMobileEventEmitter.addListener(this.events.didConnect, callback)
   }
 
   onDisconnect(callback) {
-    RNMindWaveMobileEventEmitter.addListener('didDisconnect', callback)
+    RNMindWaveMobileEventEmitter.addListener(this.events.didDisconnect, callback)
   }
 
   onFoundDevice(callback) {
-    RNMindWaveMobileEventEmitter.addListener('deviceFound', callback)
+    RNMindWaveMobileEventEmitter.addListener(this.events.deviceFound, callback)
   }
 
   onEEGPowerLowBeta(callback) {
-    RNMindWaveMobileEventEmitter.addListener('eegPowerLowBeta', callback)
+    RNMindWaveMobileEventEmitter.addListener(this.events.eegPowerLowBeta, callback)
   }
 
   onEEGPowerDelta(callback) {
-    RNMindWaveMobileEventEmitter.addListener('eegPowerDelta', callback)
+    RNMindWaveMobileEventEmitter.addListener(this.events.eegPowerDelta, callback)
   }
 
   onESense(callback) {
-    RNMindWaveMobileEventEmitter.addListener('eSense', callback)
+    RNMindWaveMobileEventEmitter.addListener(this.events.eSense, callback)
   }
 
   onEEGBlink(callback) {
-    RNMindWaveMobileEventEmitter.addListener('eegBlink', callback)
+    RNMindWaveMobileEventEmitter.addListener(this.events.eegBlink, callback)
   }
 
   onMWMBaudRate(callback) {
-    RNMindWaveMobileEventEmitter.addListener('mwmBaudRate', callback)
+    RNMindWaveMobileEventEmitter.addListener(this.events.mwmBaudRate, callback)
   }
 
   removeAllListeners() {
-    RNMindWaveMobileEventEmitter.removeAllListeners()
+    Object.keys(this.events).map(key => {
+      const event = this.events[key]
+      RNMindWaveMobileEventEmitter.removeAllListeners(event)
+    })
   }
 
 };
