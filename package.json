@@ -1,6 +1,6 @@
 {
   "name": "react-native-mindwave-mobile",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "MindWave Mobile sdk for react-native",
   "main": "index.js",
   "keywords": [
