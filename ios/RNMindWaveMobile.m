@@ -89,13 +89,13 @@ RCT_EXPORT_METHOD(disconnect)
     [self sendEventWithName:@"eegPowerLowBeta" body:data];
 }
 
--(void)eegPowerDelta:(int)delta Theta:(int)theta LowAlpha:(int)lowAplpha HighAlpha:(int)highAlpha
+-(void)eegPowerDelta:(int)delta Theta:(int)theta LowAlpha:(int)lowAlpha HighAlpha:(int)highAlpha
 {
-    NSLog(@"%s >>>>>>>-----eegPower: delta:%d theta:%d lowAplpha:%d hightAlpha:%d", __func__, delta, theta, lowAplpha, highAlpha);
+    NSLog(@"%s >>>>>>>-----eegPower: delta:%d theta:%d lowAlpha:%d hightAlpha:%d", __func__, delta, theta, lowAlpha, highAlpha);
     NSDictionary *data = @{
                            @"delta": @(delta),
                            @"theta": @(theta),
-                           @"lowAplpha": @(lowAplpha),
+                           @"lowAlpha": @(lowAlpha),
                            @"highAlpha": @(highAlpha),
                            };
     [self sendEventWithName:@"eegPowerDelta" body:data];
