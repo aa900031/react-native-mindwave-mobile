@@ -135,7 +135,7 @@ public class RNMindWaveMobileModule extends ReactContextBaseJavaModule {
         WritableMap params = Arguments.createMap();
         params.putInt("poorSignal", poorSignal);
         params.putInt("attention", attention);
-        params.putInt("mediation", meditation);
+        params.putInt("meditation", meditation);
         sendEvent(EVENT_ESENSE, params);
     }
 
